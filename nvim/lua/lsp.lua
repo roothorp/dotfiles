@@ -8,12 +8,12 @@ require('mason').setup({
     }
 })
 
-local servers = { 'pylsp', 'gopls', 'lua_ls', 'rust_analyzer' }
+local servers = { 'gopls', 'golangci-lint', 'lua_ls' }
 
 
 require('mason-lspconfig').setup({
     -- A list of servers to automatically install if they're not already installed
-    ensure_installed = servers 
+    ensure_installed = servers
 })
 -- Set different settings for different languages' LSP
 -- LSP list: https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
