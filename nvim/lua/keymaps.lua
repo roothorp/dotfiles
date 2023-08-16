@@ -1,10 +1,12 @@
-local map = vim.api.nvim_set_keymap
+local map = vim.keymap.set
 
 -- define common options
 local opts = {
-    noremap = true,      -- non-recursive
-    silent = true,       -- do not show message
+    noremap = true, -- non-recursive
+    silent = true,  -- do not show message
 }
+
+local builtin = require('telescope.builtin')
 
 -----------------
 -- Normal mode --
@@ -38,6 +40,11 @@ map('n', '<A-0>', '<Cmd>BufferLast<CR>', opts)
 -- Close buffer
 map('n', '<A-c>', '<Cmd>BufferClose<CR>', opts)
 
+map('n', '<leader>ff', builtin.find_files, {})
+map('n', '<leader>fg', builtin.live_grep, {})
+map('n', '<leader>fb', builtin.buffers, {})
+map('n', '<leader>fh', builtin.help_tags, {})
+
 -- Resize with arrows
 -- delta: 2 lines
 map('n', '<C-Up>', ':resize -2<CR>', opts)
@@ -52,4 +59,3 @@ map('n', '<C-Right>', ':vertical resize +2<CR>', opts)
 -- Hint: start visual mode with the same area as the previous area and the same mode
 map('v', '<', '<gv', opts)
 map('v', '>', '>gv', opts)
-

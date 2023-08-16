@@ -1,61 +1,150 @@
--- Install Packer automatically if it's not installed(Bootstraping)
--- Hint: string concatenation is done by `..`
-local ensure_packer = function()
-    local fn = vim.fn
-    local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
-    if fn.empty(fn.glob(install_path)) > 0 then
-        fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
-        vim.cmd [[packadd packer.nvim]]
-        return true
-    end
-    return false
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable", -- latest stable release
+    lazypath,
+  })
 end
-local packer_bootstrap = ensure_packer()
+vim.opt.rtp:prepend(lazypath)
 
 
--- Reload configurations if we modify plugins.lua
--- Hint
---     <afile> - replaced with the filename of the buffer being manipulated
-vim.cmd([[
-augroup packer_user_config
-autocmd!
-autocmd BufWritePost plugins.lua source <afile> | PackerSync
-augroup end
-]])
-
-
--- Install plugins here - `use ...`
--- Packer.nvim hints
---     after = string or list,           -- Specifies plugins to load before this plugin. See "sequencing" below
---     config = string or function,      -- Specifies code to run after this plugin is loaded
---     requires = string or list,        -- Specifies plugin dependencies. See "dependencies". 
---     ft = string or list,              -- Specifies filetypes which load this plugin.
---     run = string, function, or table, -- Specify operations to be run after successful installs/updates of a plugin
-return require('packer').startup(function(use)
-    -- Packer can manage itself
-    use { 'wbthomason/packer.nvim' }
-    use { 'NLKNguyen/papercolor-theme' }
-    use { 'lewis6991/gitsigns.nvim' }
-    use { 'williamboman/mason.nvim' }
-    use { 'williamboman/mason-lspconfig.nvim'}
-    use { 'neovim/nvim-lspconfig' }
-    use { 'SirVer/ultisnips' }
-    use { 'hrsh7th/nvim-cmp', config = [[require('config.nvim-cmp')]] }
-    use { 'hrsh7th/cmp-nvim-lsp', after = 'nvim-cmp' }
-    use { 'hrsh7th/cmp-buffer', after = 'nvim-cmp' }
-    use { 'hrsh7th/cmp-path', after = 'nvim-cmp' }
-    use { 'hrsh7th/cmp-cmdline', after = 'nvim-cmp' }
-    use { 'quangnguyen30192/cmp-nvim-ultisnips' }
-    use { 'nvim-tree/nvim-tree.lua', requires = { 'nvim-tree/nvim-web-devicons' }, config = [[require('config.nvim-tree')]] }
-    use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate', config = [[require('config.nvim-treesitter')]] }
-    use { 'nvim-telescope/telescope.nvim', requires = { 'nvim-lua/plenary.nvim' }, config = [[require('config.telescope')]] }
-    use { 'romgrk/barbar.nvim', config = [[require('config.barbar')]] }
-    use { 'tpope/vim-sleuth' }
-    use { 'feline-nvim/feline.nvim', config = [[require('config.feline')]] }
-    -- Automatically set up your configuration after cloning packer.nvim
-    -- Put this at the end after all plugins
-    if packer_bootstrap then
-        require('packer').sync()
-    end
-end)
-
+require('lazy').setup({
+    {
+        "folke/tokyonight.nvim",
+        lazy = false,
+        priority = 1000,
+        opts = {
+            style = "storm"
+        },
+        config = function()
+            vim.cmd([[colorscheme tokyonight]])
+        end,
+    },
+    {
+        "lewis6991/gitsigns.nvim",
+        lazy = true
+    },
+    { "williamboman/mason.nvim" },
+    { "williamboman/mason-lspconfig.nvim" },
+    { "neovim/nvim-lspconfig" },
+    {
+        "L3MON4D3/LuaSnip",
+        version = "2.*",
+        build = "make install_jsregexp"
+    },
+    { 'hrsh7th/cmp-nvim-lsp' },
+    { 'hrsh7th/cmp-buffer' },
+    { 'hrsh7th/cmp-path' },
+    { 'hrsh7th/cmp-cmdline' },
+    { "hrsh7th/nvim-cmp",
+        config = function()
+            local cmp = require("cmp")
+            vim.opt.completeopt = { "menu", "menuone", "noselect" }
+        
+            cmp.setup({
+                snippet = {
+                    expand = function(args)
+                        require("luasnip").lsp_expand(args.body)
+                    end,
+                },
+                window = {
+                    completion = cmp.config.window.bordered(),
+                    documentation = cmp.config.window.bordered(),
+                },
+                mapping = cmp.mapping.preset.insert({
+                    ["<C-b>"] = cmp.mapping.scroll_docs(-4),
+                    ["<C-f>"] = cmp.mapping.scroll_docs(4),
+                    ["<C-Space>"] = cmp.mapping.complete(),
+                    ["<C-e>"] = cmp.mapping.abort(),
+                    ["<CR>"] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+                }),
+                sources = cmp.config.sources({
+                    { name = "nvim_lsp" },
+                    { name = "nvim_lua" },
+                    { name = "luasnip" },
+                }, {
+                    { name = "buffer" },
+                    { name = "path" },
+                }),
+            })
+        
+            cmp.setup.cmdline(":", {
+                mapping = cmp.mapping.preset.cmdline(),
+                sources = cmp.config.sources({
+                    { name = "path" },
+                }, {
+                    { name = "cmdline" },
+                }),
+            })
+        end
+    },
+    { "saadparwaiz1/cmp_luasnip" },
+    {
+        "nvim-lualine/lualine.nvim",
+        opts = {
+            theme = "tokyonight"
+        }
+    },
+    {
+        "nvim-tree/nvim-tree.lua",
+        opts = {
+            view = {
+                width = 50,
+            },
+            renderer = {
+                group_empty = true,
+            }
+        },
+    },
+    {
+        "nvim-tree/nvim-web-devicons",
+        lazy = true
+    },
+    {
+        "nvim-treesitter/nvim-treesitter",
+        build = ":TSUpdate",
+        config = function ()
+            local configs = require("nvim-treesitter.configs")
+            configs.setup({
+                ensure_installed = {
+                    "bash",
+                    "comment",
+                    "git_rebase",
+                    "gitcommit",
+                    "gitignore",
+                    "go",
+                    "gomod",
+                    "gosum",
+                    "json",
+                    "lua",
+                    "query",
+                    "yaml",
+                },
+                sync_install = false,
+                highlight = { enable = true },
+                indent = { enable = true },  
+            })
+        end
+    },
+    {
+        'nvim-telescope/telescope.nvim',
+        tag = '0.1.x',
+        dependencies = { 'nvim-lua/plenary.nvim' }
+    },
+    {
+        'romgrk/barbar.nvim',
+        init = function() vim.g.barbar_auto_setup = false end,
+        opts = {
+            animation = true,
+            tabpages = true,
+            clickable = true,
+            icons = { filetype = { enabled = true }},
+        },
+        version = '^1.0.0',
+    },
+    { "tpope/vim-sleuth" },
+})
