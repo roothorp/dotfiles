@@ -40,6 +40,7 @@ map('n', '<A-0>', '<Cmd>BufferLast<CR>', opts)
 -- Close buffer
 map('n', '<A-c>', '<Cmd>BufferClose<CR>', opts)
 
+-- Telescope
 map('n', '<leader>ff', builtin.find_files, {})
 map('n', '<leader>fg', builtin.live_grep, {})
 map('n', '<leader>fb', builtin.buffers, {})

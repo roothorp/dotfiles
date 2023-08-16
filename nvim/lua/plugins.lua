@@ -1,13 +1,13 @@
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
-  vim.fn.system({
-    "git",
-    "clone",
-    "--filter=blob:none",
-    "https://github.com/folke/lazy.nvim.git",
-    "--branch=stable", -- latest stable release
-    lazypath,
-  })
+    vim.fn.system({
+        "git",
+        "clone",
+        "--filter=blob:none",
+        "https://github.com/folke/lazy.nvim.git",
+        "--branch=stable", -- latest stable release
+        lazypath,
+    })
 end
 vim.opt.rtp:prepend(lazypath)
 
@@ -44,7 +44,6 @@ require('lazy').setup({
         config = function()
             local cmp = require("cmp")
             vim.opt.completeopt = { "menu", "menuone", "noselect" }
-        
             cmp.setup({
                 snippet = {
                     expand = function(args)
@@ -60,25 +59,24 @@ require('lazy').setup({
                     ["<C-f>"] = cmp.mapping.scroll_docs(4),
                     ["<C-Space>"] = cmp.mapping.complete(),
                     ["<C-e>"] = cmp.mapping.abort(),
-                    ["<CR>"] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+                    ["<CR>"] = cmp.mapping.confirm({ select = true }),
                 }),
                 sources = cmp.config.sources({
                     { name = "nvim_lsp" },
                     { name = "nvim_lua" },
                     { name = "luasnip" },
                 }, {
-                    { name = "buffer" },
-                    { name = "path" },
-                }),
+                        { name = "buffer" },
+                        { name = "path" },
+                    }),
             })
-        
             cmp.setup.cmdline(":", {
                 mapping = cmp.mapping.preset.cmdline(),
                 sources = cmp.config.sources({
                     { name = "path" },
                 }, {
-                    { name = "cmdline" },
-                }),
+                        { name = "cmdline" },
+                    }),
             })
         end
     },
@@ -126,13 +124,13 @@ require('lazy').setup({
                 },
                 sync_install = false,
                 highlight = { enable = true },
-                indent = { enable = true },  
+                indent = { enable = true },
             })
         end
     },
     {
         'nvim-telescope/telescope.nvim',
-        tag = '0.1.x',
+        branch = '0.1.x',
         dependencies = { 'nvim-lua/plenary.nvim' }
     },
     {
@@ -147,4 +145,8 @@ require('lazy').setup({
         version = '^1.0.0',
     },
     { "tpope/vim-sleuth" },
-})
+},
+    {
+        ui = {border = "rounded" }
+    }
+)
