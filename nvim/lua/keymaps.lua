@@ -46,8 +46,11 @@ map("n", "<leader>fg", builtin.live_grep, opts)
 map("n", "<leader>fb", builtin.buffers, opts)
 map("n", "<leader>fh", builtin.help_tags, opts)
 
+-- Git Blame
+map("n", "<leader>gg", ":GitBlameOpenCommitURL<CR>", opts)
+
 -- Format
-map("n", "<leader>F", ":Format", opts)
+map("n", "<leader>F", ":Format<CR>", opts)
 
 -- Resize with arrows
 -- delta: 2 lines
