@@ -86,6 +86,18 @@ require("lazy").setup({
 		opts = {
 			theme = "tokyonight",
 		},
+		config = function()
+			require("lualine").setup({
+				sections = {
+					lualine_c = {
+						{
+							"filename",
+							path = 1,
+						},
+					},
+				},
+			})
+		end,
 	},
 	{
 		"nvim-tree/nvim-tree.lua",
@@ -171,6 +183,7 @@ require("lazy").setup({
 		end,
 	},
 	{ "tpope/vim-sleuth" },
+	{ "f-person/git-blame.nvim" },
 }, {
 	ui = { border = "rounded" },
 })
