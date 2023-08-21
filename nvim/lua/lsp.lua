@@ -8,7 +8,7 @@ require('mason').setup({
     }
 })
 
-local servers = { 'gopls', 'golangci-lint', 'lua_ls' }
+local servers = { 'gopls', 'lua_ls' }
 
 
 require('mason-lspconfig').setup({
