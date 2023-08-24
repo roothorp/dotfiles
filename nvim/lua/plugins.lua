@@ -144,6 +144,27 @@ require("lazy").setup({
 		"nvim-telescope/telescope.nvim",
 		branch = "0.1.x",
 		dependencies = { "nvim-lua/plenary.nvim" },
+		config = function()
+			require("telescope").setup({
+				pickers = {
+					find_files = {
+						hidden = true,
+					},
+				},
+				defaults = {
+					vimgrep_arguments = {
+						"rg",
+						"--color=never",
+						"--no-heading",
+						"--with-filename",
+						"--line-number",
+						"--column",
+						"--smart-case",
+						"--hidden",
+					},
+				},
+			})
+		end,
 	},
 	{
 		"romgrk/barbar.nvim",
