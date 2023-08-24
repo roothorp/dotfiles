@@ -1,0 +1,14 @@
+[user]
+        name = Roo Thorp
+[commit]
+        gpgsign = true
+[push]
+        autoSetupRemote = true
+[pull]
+        rebase = false
+[fetch]
+        prune = true
+[core]
+        editor = vim
+[init]
+        defaultBranch = main
