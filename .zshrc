@@ -33,6 +33,7 @@ alias vim="nvim"
 
 # Let Go know where it's at
 export GOPATH=$HOME/go
+export GOBIN=$GOPATH/bin
 export PATH=$PATH:$GOPATH/bin
 
 # Replace Apple llvm with Homebrew
