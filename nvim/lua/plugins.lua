@@ -186,6 +186,7 @@ require("lazy").setup({
 				filetype = {
 					lua = { require("formatter.filetypes.lua").stylua },
 					go = { require("formatter.filetypes.go").gofmt },
+					yaml = { require("formatter.filetypes.yaml").yamlfmt },
 				},
 			})
 		end,
@@ -205,6 +206,7 @@ require("lazy").setup({
 	},
 	{ "tpope/vim-sleuth" },
 	{ "f-person/git-blame.nvim" },
+	{ "sitiom/nvim-numbertoggle" },
 }, {
 	ui = { border = "rounded" },
 })
