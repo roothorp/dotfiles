@@ -40,6 +40,9 @@ map("n", "<A-0>", "<Cmd>BufferLast<CR>", opts)
 -- Close buffer
 map("n", "<A-c>", "<Cmd>BufferClose<CR>", opts)
 
+-- Go if err
+map("n", "<leader>ee", "oif err != nil {<CR>}<Esc>Oreturn err<Esc>")
+
 -- Telescope
 map("n", "<leader>ff", builtin.find_files, opts)
 map("n", "<leader>fg", builtin.live_grep, opts)
