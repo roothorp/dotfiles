@@ -8,7 +8,7 @@ require("mason").setup({
 	},
 })
 
-local servers = { "gopls", "lua_ls" }
+local servers = { "gopls", "lua_ls", "bashls", "delve" }
 
 require("mason-lspconfig").setup({
 	-- A list of servers to automatically install if they're not already installed
@@ -86,6 +86,23 @@ vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.s
 	border = "rounded",
 })
 
-vim.cmd([[nnoremap <buffer><silent> <C-space> :lua vim.lsp.diagnostic.show_line_diagnostics({ border = "rounded" })<CR>]])
+vim.cmd(
+	[[nnoremap <buffer><silent> <C-space> :lua vim.lsp.diagnostic.show_line_diagnostics({ border = "rounded" })<CR>]]
+)
 vim.cmd([[nnoremap <buffer><silent> ]g :lua vim.lsp.diagnostic.goto_next({ popup_opts = { border = "rounded" }})<CR>]])
 vim.cmd([[nnoremap <buffer><silent> [g :lua vim.lsp.diagnostic.goto_prev({ popup_opts = { border = "rounded" }})<CR>]])
+
+vim.api.nvim_create_autocmd("LspAttach", {
+	group = vim.api.nvim_create_augroup("lsp", { clear = true }),
+	callback = function(args)
+		-- 2
+		vim.api.nvim_create_autocmd("BufWritePre", {
+			-- 3
+			buffer = args.buf,
+			callback = function()
+				-- 4 + 5
+				vim.lsp.buf.format({ async = false, id = args.data.client_id })
+			end,
+		})
+	end,
+})

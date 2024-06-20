@@ -12,6 +12,8 @@ local builtin = require("telescope.builtin")
 -- Normal mode --
 -----------------
 
+map("n", "q", "<Nop>", opts)
+
 -- Hint: see `:h vim.map.set()`
 -- Better window navigation
 map("n", "<C-h>", "<C-w>h", opts)
@@ -52,8 +54,12 @@ map("n", "<leader>fh", builtin.help_tags, opts)
 -- Git Blame
 map("n", "<leader>gg", ":GitBlameOpenCommitURL<CR>", opts)
 
--- Format
-map("n", "<leader>F", ":Format<CR>", opts)
+-- Popout Diagnostics
+map("n", "<leader>d", vim.diagnostic.open_float, opts)
+
+-- vim-test
+map("n", "<leader>t", ":TestNearest<CR>")
+map("n", "<leader>T", ":TestFile<CR>")
 
 -- Resize with arrows
 -- delta: 2 lines

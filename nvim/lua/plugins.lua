@@ -131,6 +131,8 @@ require("lazy").setup({
 					"gosum",
 					"json",
 					"lua",
+					"markdown",
+					"markdown_inline",
 					"query",
 					"yaml",
 				},
@@ -180,18 +182,6 @@ require("lazy").setup({
 		version = "^1.0.0",
 	},
 	{
-		"mhartington/formatter.nvim",
-		config = function()
-			require("formatter").setup({
-				filetype = {
-					lua = { require("formatter.filetypes.lua").stylua },
-					go = { require("formatter.filetypes.go").gofmt },
-					yaml = { require("formatter.filetypes.yaml").yamlfmt },
-				},
-			})
-		end,
-	},
-	{
 		"mfussenegger/nvim-lint",
 		config = function()
 			require("lint").linters_by_ft = {
@@ -206,7 +196,18 @@ require("lazy").setup({
 	},
 	{ "tpope/vim-sleuth" },
 	{ "f-person/git-blame.nvim" },
+	{ "vim-test/vim-test" },
 	{ "sitiom/nvim-numbertoggle" },
+	{
+		"andythigpen/nvim-coverage",
+		dependencies = { "nvim-lua/plenary.nvim" },
+		config = function()
+			require("coverage").setup()
+		end,
+	},
+	{ "mfussenegger/nvim-dap" },
+	{ "rcarriga/nvim-dap-ui", dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" } },
+	{ "leoluz/nvim-dap-go" },
 }, {
 	ui = { border = "rounded" },
 })
