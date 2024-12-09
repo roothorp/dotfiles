@@ -8,7 +8,7 @@ require("mason").setup({
 	},
 })
 
-local servers = { "gopls", "lua_ls", "bashls", "delve" }
+local servers = { "gopls", "lua_ls", "bashls" }
 
 require("mason-lspconfig").setup({
 	-- A list of servers to automatically install if they're not already installed

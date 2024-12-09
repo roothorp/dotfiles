@@ -68,6 +68,13 @@ map("n", "<C-Down>", ":resize +2<CR>", opts)
 map("n", "<C-Left>", ":vertical resize -2<CR>", opts)
 map("n", "<C-Right>", ":vertical resize +2<CR>", opts)
 
+-- debugger
+map('n', '<F5>', require 'dap'.continue)
+map('n', '<F10>', require 'dap'.step_over)
+map('n', '<F11>', require 'dap'.step_into)
+map('n', '<F12>', require 'dap'.step_out)
+map('n', '<leader>b', require 'dap'.toggle_breakpoint)
+
 -----------------
 -- Visual mode --
 -----------------
