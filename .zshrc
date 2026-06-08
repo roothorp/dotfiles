@@ -24,6 +24,8 @@ source $ZSH/oh-my-zsh.sh
 # Cloud provider env vars
 source ~/.cloud
 
+export GPG_TTY=$TTY
+
 # Aliases
 alias msh='mongosh'
 alias vim="nvim"
@@ -34,7 +36,7 @@ alias vim="nvim"
 # Let Go know where it's at
 export GOPATH=$HOME/go
 export GOBIN=$GOPATH/bin
-export PATH=$PATH:$GOPATH/bin
+export PATH=$PATH:$GOPATH/bin:/usr/local/go/bin
 
 # Replace Apple llvm with Homebrew
 export LDFLAGS="-L/opt/homebrew/opt/llvm/lib"

@@ -115,34 +115,6 @@ require("lazy").setup({
 		lazy = true,
 	},
 	{
-		"nvim-treesitter/nvim-treesitter",
-		build = ":TSUpdate",
-		config = function()
-			local configs = require("nvim-treesitter.configs")
-			configs.setup({
-				ensure_installed = {
-					"bash",
-					"comment",
-					"git_rebase",
-					"gitcommit",
-					"gitignore",
-					"go",
-					"gomod",
-					"gosum",
-					"json",
-					"lua",
-					"markdown",
-					"markdown_inline",
-					"query",
-					"yaml",
-				},
-				sync_install = false,
-				highlight = { enable = true },
-				indent = { enable = true },
-			})
-		end,
-	},
-	{
 		"nvim-telescope/telescope.nvim",
 		branch = "0.1.x",
 		dependencies = { "nvim-lua/plenary.nvim" },
@@ -169,17 +141,14 @@ require("lazy").setup({
 		end,
 	},
 	{
-		"romgrk/barbar.nvim",
-		init = function()
-			vim.g.barbar_auto_setup = false
-		end,
-		opts = {
-			animation = true,
-			tabpages = true,
-			clickable = true,
-			icons = { filetype = { enabled = true } },
-		},
-		version = "^1.0.0",
+		'nvim-telescope/telescope-fzf-native.nvim',
+		build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release --target install'
+	},
+	{
+		'akinsho/bufferline.nvim',
+		version = "*",
+		dependencies =
+		'nvim-tree/nvim-web-devicons'
 	},
 	{
 		"mfussenegger/nvim-lint",

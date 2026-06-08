@@ -19,9 +19,8 @@ require("mason-lspconfig").setup({
 -- How to use setup({}): https://github.com/neovim/nvim-lspconfig/wiki/Understanding-setup-%7B%7D
 --     - the settings table is sent to the LSP
 --     - on_attach: a lua callback function to run after LSP attaches to a given buffer
-local lspconfig = require("lspconfig")
 
-require("lspconfig").lua_ls.setup({
+vim.lsp.config("lua_ls", {
 	settings = {
 		Lua = {
 			diagnostics = {
@@ -35,7 +34,7 @@ require("lspconfig").lua_ls.setup({
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 
 for _, lsp in ipairs(servers) do
-	lspconfig[lsp].setup({
+	vim.lsp.config(lsp, {
 		capabilities = capabilities,
 	})
 end
@@ -78,13 +77,10 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		end, opts)
 	end,
 })
-vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-	border = "rounded",
-})
 
-vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
-	border = "rounded",
-})
+vim.lsp.buf.hover({ border = "rounded" })
+
+vim.lsp.buf.signature_help({ border = "rounded" })
 
 vim.cmd(
 	[[nnoremap <buffer><silent> <C-space> :lua vim.lsp.diagnostic.show_line_diagnostics({ border = "rounded" })<CR>]]
